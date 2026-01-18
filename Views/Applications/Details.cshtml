@@ -1,0 +1,113 @@
+﻿@model JobApplicationTracker.Models.Application
+
+@{
+    ViewData["Title"] = "Başvuru Detayları";
+    var badgeClass = Model.Status switch
+    {
+        ApplicationStatus.Başvuruldu => "bg-primary",
+        ApplicationStatus.Mülakat => "bg-warning text-dark",
+        ApplicationStatus.Red => "bg-danger",
+        ApplicationStatus.Kabul => "bg-success",
+        _ => "bg-secondary"
+    };
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h4 class="mb-0">
+                        <i class="bi bi-info-circle me-2"></i>Başvuru Detayları
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h6 class="text-muted">Firma</h6>
+                            <p class="fs-5 fw-bold"><i class="bi bi-building me-2 text-primary"></i>@Model.CompanyName</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-muted">Pozisyon</h6>
+                            <p class="fs-5 fw-bold"><i class="bi bi-briefcase me-2 text-primary"></i>@Model.Position</p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h6 class="text-muted">Konum</h6>
+                            <p><i class="bi bi-geo-alt me-2"></i>@Model.Location</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-muted">Maaş</h6>
+                            <p><i class="bi bi-currency-dollar me-2"></i>@(Model.Salary ?? "-")</p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h6 class="text-muted">Başvuru Tarihi</h6>
+                            <p><i class="bi bi-calendar me-2"></i>@Model.ApplicationDate.ToString("dd.MM.yyyy")</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-muted">Durum</h6>
+                            <p><span class="badge @badgeClass fs-6">@Model.Status</span></p>
+                        </div>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.ContactPerson) || !string.IsNullOrEmpty(Model.ContactEmail) || !string.IsNullOrEmpty(Model.ContactPhone))
+                    {
+                        <hr>
+                        <h5 class="mb-3"><i class="bi bi-person-lines-fill me-2"></i>İletişim Bilgileri</h5>
+                        <div class="row mb-4">
+                            @if (!string.IsNullOrEmpty(Model.ContactPerson))
+                            {
+                                <div class="col-md-6">
+                                    <h6 class="text-muted">İlgili Kişi</h6>
+                                    <p><i class="bi bi-person me-2"></i>@Model.ContactPerson</p>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.ContactEmail))
+                            {
+                                <div class="col-md-6">
+                                    <h6 class="text-muted">E-posta</h6>
+                                    <p><i class="bi bi-envelope me-2"></i><a href="mailto:@Model.ContactEmail">@Model.ContactEmail</a></p>
+                                </div>
+                            }
+                        </div>
+                        @if (!string.IsNullOrEmpty(Model.ContactPhone))
+                        {
+                            <div class="row mb-4">
+                                <div class="col-md-12">
+                                    <h6 class="text-muted">Telefon</h6>
+                                    <p><i class="bi bi-telephone me-2"></i><a href="tel:@Model.ContactPhone">@Model.ContactPhone</a></p>
+                                </div>
+                            </div>
+                        }
+                    }
+
+                    @if (!string.IsNullOrEmpty(Model.Notes))
+                    {
+                        <hr>
+                        <h5 class="mb-3"><i class="bi bi-journal-text me-2"></i>Notlar</h5>
+                        <div class="alert alert-light">
+                            <p class="mb-0" style="white-space: pre-wrap;">@Model.Notes</p>
+                        </div>
+                    }
+
+                    <div class="d-flex gap-2 justify-content-end mt-4">
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left me-2"></i>Geri
+                        </a>
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
+                            <i class="bi bi-pencil me-2"></i>Düzenle
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">
+                            <i class="bi bi-trash me-2"></i>Sil
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

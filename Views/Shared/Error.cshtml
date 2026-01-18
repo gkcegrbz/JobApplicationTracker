@@ -1,0 +1,23 @@
+﻿@model ErrorViewModel
+@{
+    ViewData["Title"] = "Hata";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <i class="bi bi-exclamation-circle text-danger" style="font-size: 5rem;"></i>
+            <h1 class="text-danger mt-3">Hata!</h1>
+            <p class="lead">Bir hata oluştu. Lütfen daha sonra tekrar deneyin.</p>
+
+            @if (Model.ShowRequestId)
+            {
+                <p><strong>İstek ID:</strong> <code>@Model.RequestId</code></p>
+            }
+
+            <a asp-controller="Applications" asp-action="Index" class="btn btn-primary mt-3">
+                <i class="bi bi-house me-2"></i>Ana Sayfaya Dön
+            </a>
+        </div>
+    </div>
+</div>
